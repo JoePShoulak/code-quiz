@@ -12,34 +12,36 @@ function randomFrom(items) {
     return items[Math.floor(Math.random() * items.length)];
 }
 
-function adjustTimer() {
-    timer--;
-    timerSpan.innerHTML = `${timer}s`;
-    if (timer == 0) {clearInterval(t)};
+function startTimer() {
+    var t = setInterval(function() {
+        timer--;
+        timerSpan.innerHTML = `${timer}s`;
+        if (timer == 0) {clearInterval(t)};
+    }, 1000)
 }
 
-function startQuiz() {
-    // Ready to begin the quiz
-    startButton.style.visibility = "hidden";
-    document.getElementById("quizzlet").style.visibility = "visible";
- 
-    // Populate Quiz Options
+function loadQuestion() {
     randomQ = randomFrom(codeQuiz);
     document.getElementById("question").innerHTML = randomQ.question;
 
     [0, 1, 2, 3].forEach(i => {
         choiceSpans[i].innerHTML = randomQ.options[i];
     });
+}
 
+var userChoice = 0;
+
+function startQuiz() {
+    // Ready to begin the quiz
+    startButton.style.visibility = "hidden";
+    document.getElementById("quizzlet").style.visibility = "visible";
+ 
+    // Start Timer
     timer = 60;
+    startTimer();
+    loadQuestion();
 
-    var t = setInterval(adjustTimer, 1000)
-
-    // Receive User Input
-
-    // Update Score
-
-    // Continue Game Loop unless Timer is All Out
+    // End Game / submit high score
 }
 
 startButton.addEventListener("click", startQuiz);
