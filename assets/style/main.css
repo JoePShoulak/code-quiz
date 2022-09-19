@@ -65,6 +65,12 @@ footer {
     background-color: skyblue;
 }
 
+/* == Classes == */
+.score {
+    display: block;
+    text-align: center;
+}
+
 /* == IDs == */
 #quizzlet {
     visibility: hidden;

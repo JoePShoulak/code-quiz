@@ -1,5 +1,6 @@
 // HTML Variables
 var startButton = document.getElementById("start-button");
+var resetButton = document.getElementById("reset-button");
 var timerSpan = document.getElementById("timer");
 var scoreSpan = document.getElementById("score")
 var quizzlet = document.getElementById("quizzlet");
@@ -30,6 +31,16 @@ function randomFrom(items) {
     return items[Math.floor(Math.random() * items.length)];
 }
 
+// Empty the high scores from local storage
+function resetLocal() {
+    localStorage.clear();
+
+    const scores = document.querySelectorAll('.score');
+    scores.forEach(s => {
+        s.remove();
+    })
+}
+
 // Populate the HTML on the page with a random question from the file
 function loadQuestion() {
     currentQuestion = randomFrom(codeQuiz);
@@ -49,13 +60,31 @@ function showHighScore() {
     quizzlet.style.visibility = "hidden" // Hide the quizzlet
     scores.style.visibility = "visible";
 
+    var highScores = JSON.parse(localStorage.getItem("scores"));
+    
     var isUserSubmitting = confirm("Do you want to submit your high score?");
 
     if (isUserSubmitting) {
         var initials = prompt("Enter your initials");
+
+        var myScore = {
+            initials: initials,
+            score: userScore,
+        }
+
+        if (highScores == null) {highScores = [];}
+        highScores.push(myScore);
+
+        localStorage.setItem("scores", JSON.stringify(highScores));
     }
 
-    scores.innerHTML = `Congrats! Your score was ${userScore}`;
+    highScores.forEach(score => {
+        console.log(score.initials, score.score);
+        var scoreElement = document.createElement("span");
+        scoreElement.className="score";
+        scoreElement.textContent = `${score.initials}: ${score.score}`
+        document.body.appendChild(scoreElement);
+    });
 }
 
 function gameLoop() {
@@ -94,6 +123,7 @@ function startQuiz() {
  
     // Start Timer and load first question
     timer = 60;
+    timer = 5; // DEBUG TODO: REMOVE FOR PRODUCTION
     loadQuestion();
 
     // Set an interval of 1000ms, mainly for the timer
@@ -101,3 +131,4 @@ function startQuiz() {
 }
 
 startButton.addEventListener("click", startQuiz);
+resetButton.addEventListener("click", resetLocal);
