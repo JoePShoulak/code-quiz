@@ -56,14 +56,27 @@ function isUserCorrect() {
     return (currentQuestion.correct == currentQuestion.options[userChoice-1]);
 }
 
+// Display all the new scores
+function renderScores() {
+    highScores.forEach(score => {
+        // Make a new span for each score
+        var scoreElement = document.createElement("span");
+        scoreElement.className="score";
+        scoreElement.textContent = `${score.initials}: ${score.score}`
+        document.body.appendChild(scoreElement);
+    });
+}
+
+// Display (and hide) the relevant parts of the page
 function showHighScore() {
     quizzlet.style.visibility = "hidden" // Hide the quizzlet
-    scores.style.visibility = "visible";
+    scores.style.visibility = "visible"; // Show this current content
 
+    // Grab the current list of high scores; ask if they want to submit one
     var highScores = JSON.parse(localStorage.getItem("scores"));
-    
     var isUserSubmitting = confirm("Do you want to submit your high score?");
 
+    // If we're submitting a high score...
     if (isUserSubmitting) {
         var initials = prompt("Enter your initials");
 
@@ -72,19 +85,15 @@ function showHighScore() {
             score: userScore,
         }
 
+        // Add our score to the list (and check and fix if it's empty because there are none)
         if (highScores == null) {highScores = [];}
         highScores.push(myScore);
 
+        // Save our updated scores back to our localStorage
         localStorage.setItem("scores", JSON.stringify(highScores));
     }
 
-    highScores.forEach(score => {
-        console.log(score.initials, score.score);
-        var scoreElement = document.createElement("span");
-        scoreElement.className="score";
-        scoreElement.textContent = `${score.initials}: ${score.score}`
-        document.body.appendChild(scoreElement);
-    });
+    renderScores();
 }
 
 function gameLoop() {
@@ -130,5 +139,6 @@ function startQuiz() {
     timerObject = setInterval(gameLoop, 1000);
 }
 
+// Add our Event Listeners
 startButton.addEventListener("click", startQuiz);
 resetButton.addEventListener("click", resetLocal);
