@@ -32,11 +32,17 @@ function randomFrom(items) {
     return items[Math.floor(Math.random() * items.length)];
 }
 
+// Delete the added score elements
 function deleteScoreElements() {
     const scores = document.querySelectorAll('.score');
     scores.forEach(s => {
         s.remove();
     })
+}
+
+function updateUserUI() {
+    timerSpan.innerHTML = `${timer}s`;
+    scoreSpan.innerHTML = userScore; // Update Score
 }
 
 // Empty the high scores from local storage
@@ -99,7 +105,7 @@ function showHighScore() {
 function gameLoop() {
     // Update the timer
     timer--;
-    timerSpan.innerHTML = `${timer}s`;
+    updateUserUI();
 
     // If time ran out...
     if (timer <= 0) {
@@ -114,11 +120,11 @@ function gameLoop() {
         } else {
             userScore--; // Decrease score and timer and update the timer
             timer -= 5;
-            timerSpan.innerHTML = `${timer}s`;
+            updateUserUI();
         }
 
         // Whether the user got it right or wrong...
-        scoreSpan.innerHTML = userScore; // Update Score
+        updateUserUI(); // Update Score
         userChoice = 0; // Reset choice
         loadQuestion(); // New question
     }
@@ -130,10 +136,10 @@ function startQuiz() {
     startButton.style.visibility = "hidden";
     quizzlet.style.visibility = "visible";
     scores.style.visibility = "hidden";
-    
+
     deleteScoreElements();
     userScore = 0;
-    scoreSpan.innerHTML = userScore; // Update Score
+    updateUserUI(); // Update Score
 
  
     // Start Timer and load first question
