@@ -119,9 +119,9 @@ function gameLoop() {
         }
 
         // Whether the user got it right or wrong...
-        loadQuestion(); // New question
-        userChoice = 0; // Reset choice
         scoreSpan.innerHTML = userScore; // Update Score
+        userChoice = 0; // Reset choice
+        loadQuestion(); // New question
     }
 }
 
@@ -133,7 +133,6 @@ function startQuiz() {
  
     // Start Timer and load first question
     timer = 60;
-    timer = 5; // DEBUG TODO: REMOVE FOR PRODUCTION
     loadQuestion();
 
     // Set an interval of 1000ms, mainly for the timer
