@@ -19,6 +19,6 @@ var codeQuiz = [
             "Hugely Tedious Mess of a Language",
             "Hot Tamales Marching Left",
             "Here To Make Laughs"],
-        correct: "Cascading Style Sheets"
+        correct: "Hypertext Markup Language"
     },
 ]
