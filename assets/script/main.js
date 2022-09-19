@@ -1,6 +1,7 @@
 // HTML Variables
 var startButton = document.getElementById("start-button");
 var resetButton = document.getElementById("reset-button");
+var playAgain = document.getElementById("play-again");
 var timerSpan = document.getElementById("timer");
 var scoreSpan = document.getElementById("score")
 var quizzlet = document.getElementById("quizzlet");
@@ -31,14 +32,18 @@ function randomFrom(items) {
     return items[Math.floor(Math.random() * items.length)];
 }
 
-// Empty the high scores from local storage
-function resetLocal() {
-    localStorage.clear();
-
+function deleteScoreElements() {
     const scores = document.querySelectorAll('.score');
     scores.forEach(s => {
         s.remove();
     })
+}
+
+// Empty the high scores from local storage
+function resetLocal() {
+    localStorage.clear();
+
+    deleteScoreElements();
 }
 
 // Populate the HTML on the page with a random question from the file
@@ -57,7 +62,7 @@ function isUserCorrect() {
 }
 
 // Display all the new scores
-function renderScores() {
+function renderScores(highScores) {
     highScores.forEach(score => {
         // Make a new span for each score
         var scoreElement = document.createElement("span");
@@ -72,28 +77,22 @@ function showHighScore() {
     quizzlet.style.visibility = "hidden" // Hide the quizzlet
     scores.style.visibility = "visible"; // Show this current content
 
-    // Grab the current list of high scores; ask if they want to submit one
+    // Load scores
     var highScores = JSON.parse(localStorage.getItem("scores"));
-    var isUserSubmitting = confirm("Do you want to submit your high score?");
-
-    // If we're submitting a high score...
-    if (isUserSubmitting) {
-        var initials = prompt("Enter your initials");
-
-        var myScore = {
-            initials: initials,
-            score: userScore,
-        }
-
-        // Add our score to the list (and check and fix if it's empty because there are none)
-        if (highScores == null) {highScores = [];}
-        highScores.push(myScore);
-
-        // Save our updated scores back to our localStorage
-        localStorage.setItem("scores", JSON.stringify(highScores));
+    
+    var myScore = {
+        initials: prompt("Enter your initials"),
+        score: userScore,
     }
 
-    renderScores();
+    // Add our score to the list (and check and fix if it's empty because there are none)
+    if (highScores == null) {highScores = [];}
+    highScores.push(myScore);
+
+    // Save our updated scores back to our localStorage
+    localStorage.setItem("scores", JSON.stringify(highScores));
+
+    renderScores(highScores);
 }
 
 // The main game loops, manages the "playing" of the game
@@ -130,9 +129,16 @@ function startQuiz() {
     // Show the correct items
     startButton.style.visibility = "hidden";
     quizzlet.style.visibility = "visible";
+    scores.style.visibility = "hidden";
+    
+    deleteScoreElements();
+    userScore = 0;
+    scoreSpan.innerHTML = userScore; // Update Score
+
  
     // Start Timer and load first question
     timer = 60;
+    timer = 3;
     loadQuestion();
 
     // Set an interval of 1000ms, mainly for the timer
@@ -141,4 +147,5 @@ function startQuiz() {
 
 // Add our Event Listeners
 startButton.addEventListener("click", startQuiz);
+playAgain.addEventListener("click", startQuiz);
 resetButton.addEventListener("click", resetLocal);
