@@ -69,3 +69,7 @@ footer {
 #quizzlet {
     visibility: hidden;
 }
+
+#scores {
+    visibility: hidden;
+}
