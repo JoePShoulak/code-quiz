@@ -144,7 +144,6 @@ function startQuiz() {
  
     // Start Timer and load first question
     timer = 60;
-    timer = 3;
     loadQuestion();
 
     // Set an interval of 1000ms, mainly for the timer
