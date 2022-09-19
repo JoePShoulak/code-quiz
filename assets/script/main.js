@@ -1,14 +1,15 @@
+// HTML Variables
 var startButton = document.getElementById("start-button");
 var timerSpan = document.getElementById("timer");
 var scoreSpan = document.getElementById("score")
 var quizzlet = document.getElementById("quizzlet");
 
-
+// Javascript Variables
 var currentQuestion = null;
 var userChoice = 0;
 var userScore = 0;
 
-
+// The Choice Spans
 var choiceSpans = [
     document.getElementById("choice1"),
     document.getElementById("choice2"),
@@ -16,19 +17,18 @@ var choiceSpans = [
     document.getElementById("choice4")
 ]
 
+// Add onclicks to update userChoice (which we're watching as received input)
 choiceSpans[0].addEventListener("click", function() { userChoice = 1; });
 choiceSpans[1].addEventListener("click", function() { userChoice = 2; });
 choiceSpans[2].addEventListener("click", function() { userChoice = 3; });
 choiceSpans[3].addEventListener("click", function() { userChoice = 4; });
 
+// Helper function; random element from array 
 function randomFrom(items) {
     return items[Math.floor(Math.random() * items.length)];
 }
 
-function startTimer() {
-
-}
-
+// Populate the HTML on the page with a random question from the file
 function loadQuestion() {
     currentQuestion = randomFrom(codeQuiz);
     document.getElementById("question").innerHTML = currentQuestion.question;
@@ -38,12 +38,13 @@ function loadQuestion() {
     });
 }
 
+// Return a boolean of matching the correctness of the user's guess
 function isUserCorrect() {
     return (currentQuestion.correct == currentQuestion.options[userChoice-1]);
 }
 
 function startQuiz() {
-    // Ready to begin the quiz
+    // Show the correct items
     startButton.style.visibility = "hidden";
     quizzlet.style.visibility = "visible";
  
@@ -51,6 +52,7 @@ function startQuiz() {
     timer = 60;
     loadQuestion();
 
+    // Set an interval of 1000ms, mainly for the timer
     var t = setInterval(function() {
         timer--;
         timerSpan.innerHTML = `${timer}s`;
