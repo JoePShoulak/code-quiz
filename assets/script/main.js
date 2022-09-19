@@ -43,6 +43,7 @@ function isUserCorrect() {
     return (currentQuestion.correct == currentQuestion.options[userChoice-1]);
 }
 
+// Start the quiz
 function startQuiz() {
     // Show the correct items
     startButton.style.visibility = "hidden";
@@ -54,24 +55,30 @@ function startQuiz() {
 
     // Set an interval of 1000ms, mainly for the timer
     var t = setInterval(function() {
+        // Update the timer
         timer--;
         timerSpan.innerHTML = `${timer}s`;
+
+        // If time ran out...
         if (timer <= 0) {
-            clearInterval(t)
-            quizzlet.style.visibility = "hidden"
+            clearInterval(t) // Break out of this
+            quizzlet.style.visibility = "hidden" // Hide the quizzlet
         };
 
+        // If the user made a choice...
         if (userChoice != 0) {
-            if (isUserCorrect()) {
-                userScore++;
+            if (isUserCorrect()) { // If it was correct...
+                userScore++; // Increase score
             } else {
-                userScore--;
+                userScore--; // Decrease score and timer and update the timer
                 timer -= 5;
                 timerSpan.innerHTML = `${timer}s`;
             }
-            loadQuestion();
-            userChoice = 0;
-            scoreSpan.innerHTML = userScore;
+
+            // Whether the user got it right or wrong...
+            loadQuestion(); // New question
+            userChoice = 0; // Reset choice
+            scoreSpan.innerHTML = userScore; // Update Score
         }
     }, 1000)
 
