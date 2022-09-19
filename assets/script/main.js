@@ -10,21 +10,16 @@ var userScore = 0;
 
 
 var choiceSpans = [
-    document.getElementById(`choice1`),
-    document.getElementById(`choice2`),
-    document.getElementById(`choice3`),
-    document.getElementById(`choice4`)
+    document.getElementById("choice1"),
+    document.getElementById("choice2"),
+    document.getElementById("choice3"),
+    document.getElementById("choice4")
 ]
 
-function choose1() { userChoice = 1; }
-function choose2() { userChoice = 2; }
-function choose3() { userChoice = 3; }
-function choose4() { userChoice = 4; }
-
-choiceSpans[0].addEventListener("click", choose1);
-choiceSpans[1].addEventListener("click", choose2);
-choiceSpans[2].addEventListener("click", choose3);
-choiceSpans[3].addEventListener("click", choose4);
+choiceSpans[0].addEventListener("click", function() { userChoice = 1; });
+choiceSpans[1].addEventListener("click", function() { userChoice = 2; });
+choiceSpans[2].addEventListener("click", function() { userChoice = 3; });
+choiceSpans[3].addEventListener("click", function() { userChoice = 4; });
 
 function randomFrom(items) {
     return items[Math.floor(Math.random() * items.length)];
@@ -43,7 +38,7 @@ function loadQuestion() {
     });
 }
 
-function evaluateChoice(userChoice) {
+function isUserCorrect() {
     return (currentQuestion.correct == currentQuestion.options[userChoice-1]);
 }
 
@@ -55,6 +50,7 @@ function startQuiz() {
     // Start Timer
     timer = 60;
     loadQuestion();
+
     var t = setInterval(function() {
         timer--;
         timerSpan.innerHTML = `${timer}s`;
@@ -64,12 +60,12 @@ function startQuiz() {
         };
 
         if (userChoice != 0) {
-            var r = evaluateChoice(userChoice);
-            if (r) {
+            if (isUserCorrect()) {
                 userScore++;
             } else {
                 userScore--;
                 timer -= 5;
+                timerSpan.innerHTML = `${timer}s`;
             }
             loadQuestion();
             userChoice = 0;
