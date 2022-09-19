@@ -96,6 +96,7 @@ function showHighScore() {
     renderScores();
 }
 
+// The main game loops, manages the "playing" of the game
 function gameLoop() {
     // Update the timer
     timer--;
