@@ -1,12 +1,53 @@
+<!--
+    GIVEN I am taking a code quiz
+    WHEN I click the start button
+    THEN a timer starts and I am presented with a question
+    WHEN I answer a question
+    THEN I am presented with another question
+    WHEN I answer a question incorrectly
+    THEN time is subtracted from the clock
+    WHEN all questions are answered or the timer reaches 0
+    THEN the game is over
+    WHEN the game is over
+    THEN I can save my initials and my score
+-->
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <link rel="stylesheet" href="./assets/style/_reset.css" />
+    <link rel="stylesheet" href="./assets/style/main.css" />
+    <title>Code Quiz</title>
 </head>
 <body>
-    <h1>Hello, World!</h1>
+    <header>
+        <h1>Code Quiz!</h1>
+    </header>
+    <main>
+        <section>
+            <button id="start-button">Start Quiz!</button>
+
+            <article id="quizzlet">
+                <h2 id="question">Question:</h2>
+                <div id="choices">
+                    <span id="choice1">Choice 1</span>
+                    <span id="choice2">Choice 2</span>
+                    <span id="choice3">Choice 3</span>
+                    <span id="choice4">Choice 4</span>
+                </div>
+            </article>
+        </section>
+        <aside>
+            <!-- This will be for high scores -->
+        </aside>
+    </main>
+    <footer>
+        Made by Joe Shoulak
+    </footer>
 </body>
+<script src="./assets/script/code-quiz.js"></script>
+<script src="./assets/script/main.js"></script>
 </html>
