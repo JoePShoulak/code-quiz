@@ -79,14 +79,7 @@ function renderScores(highScores) {
     });
 }
 
-// Display (and hide) the relevant parts of the page
-function showHighScore() {
-    quizzlet.style.visibility = "hidden" // Hide the quizzlet
-    scores.style.visibility = "visible"; // Show this current content
-
-    // Load scores
-    var highScores = JSON.parse(localStorage.getItem("scores"));
-    
+function updateHighScores(highScores) {
     var myScore = {
         initials: prompt("Enter your initials"),
         score: userScore,
@@ -95,6 +88,18 @@ function showHighScore() {
     // Add our score to the list (and check and fix if it's empty because there are none)
     if (highScores == null) {highScores = [];}
     highScores.push(myScore);
+    return highScores;
+}
+
+// Display (and hide) the relevant parts of the page
+function showHighScore() {
+    quizzlet.style.visibility = "hidden" // Hide the quizzlet
+    scores.style.visibility = "visible"; // Show this current content
+
+    // Load scores
+    var highScores = JSON.parse(localStorage.getItem("scores"));
+    
+    highScores = updateHighScores(highScores);
 
     // Save our updated scores back to our localStorage
     localStorage.setItem("scores", JSON.stringify(highScores));
