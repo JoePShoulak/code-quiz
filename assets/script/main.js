@@ -9,9 +9,10 @@ var scores = document.getElementById("scores");
 
 // Javascript Variables
 var currentQuestion = null;
-var userChoice = 0;
+var userChoice = -1;
 var userScore = 0;
 var timerObject = null;
+var timer = 60;
 
 // The Choice Spans
 var choiceSpans = [
@@ -22,10 +23,10 @@ var choiceSpans = [
 ]
 
 // Add onclicks to update userChoice (which we're watching as received input)
-choiceSpans[0].addEventListener("click", function() { userChoice = 1; });
-choiceSpans[1].addEventListener("click", function() { userChoice = 2; });
-choiceSpans[2].addEventListener("click", function() { userChoice = 3; });
-choiceSpans[3].addEventListener("click", function() { userChoice = 4; });
+choiceSpans[0].addEventListener("click", function() { userChoice = 0; });
+choiceSpans[1].addEventListener("click", function() { userChoice = 1; });
+choiceSpans[2].addEventListener("click", function() { userChoice = 2; });
+choiceSpans[3].addEventListener("click", function() { userChoice = 3; });
 
 // Helper function; random element from array 
 function randomFrom(items) {
@@ -64,7 +65,7 @@ function loadQuestion() {
 
 // Return a boolean of matching the correctness of the user's guess
 function isUserCorrect() {
-    return (currentQuestion.correct == currentQuestion.options[userChoice-1]);
+    return (currentQuestion.correct == currentQuestion.options[userChoice]);
 }
 
 // Display all the new scores
@@ -74,7 +75,7 @@ function renderScores(highScores) {
         var scoreElement = document.createElement("span");
         scoreElement.className="score";
         scoreElement.textContent = `${score.initials}: ${score.score}`
-        document.body.appendChild(scoreElement);
+        scores.appendChild(scoreElement);
     });
 }
 
@@ -107,14 +108,8 @@ function gameLoop() {
     timer--;
     updateUserUI();
 
-    // If time ran out...
-    if (timer <= 0) {
-        clearInterval(timerObject) // Break out of this
-        showHighScore();
-    };
-
     // If the user made a choice...
-    if (userChoice != 0) {
+    if (userChoice != -1) {
         if (isUserCorrect()) { // If it was correct...
             userScore++; // Increase score
         } else {
@@ -125,9 +120,15 @@ function gameLoop() {
 
         // Whether the user got it right or wrong...
         updateUserUI(); // Update Score
-        userChoice = 0; // Reset choice
+        userChoice = -1; // Reset choice
         loadQuestion(); // New question
     }
+
+    // If time ran out...
+    if (timer <= 0) {
+        clearInterval(timerObject) // Break out of this
+        showHighScore();
+    };
 }
 
 // Start the quiz
