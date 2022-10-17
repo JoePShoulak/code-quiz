@@ -36,9 +36,7 @@ function randomFrom(items) {
 // Delete the added score elements
 function deleteScoreElements() {
     const scores = document.querySelectorAll('.score');
-    scores.forEach(s => {
-        s.remove();
-    })
+    scores.forEach(s => s.remove() )
 }
 
 function updateUserUI() {
@@ -86,8 +84,9 @@ function updateHighScores(highScores) {
     }
 
     // Add our score to the list (and check and fix if it's empty because there are none)
-    if (highScores == null) {highScores = [];}
+    highScores = highScores ?? [];
     highScores.push(myScore);
+    
     return highScores;
 }
 
